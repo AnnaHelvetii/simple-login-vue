@@ -1,8 +1,13 @@
 <template>
 	<div class="dashboard">
-		<header class="dashboard__header">
-			<span>Привет, {{ username }}</span> <!-- Показываем имя пользователя -->
-			<button @click="logout" class="logout-button">Выйти</button>
+		<header class="header">
+			<p>
+				Привет,
+				<span class="username">{{ username }}</span>
+			</p>
+			<button @click="logout" class="logout-button">
+				Выйти
+			</button>
 		</header>
 		<div class="dashboard__content">
 			<vue-carousel v-if="images.length">
@@ -11,12 +16,22 @@
 				</carousel-slide>
 			</vue-carousel>
 			<div class="dropdown">
-				<select v-model="selectedCity" class="dropdown__list">
+				<select 
+					v-model="selectedCity" 
+					class="dropdown__list" 
+					@change="saveCity"
+				>
 					<option v-for="city in cities" :key="city">{{ city }}</option>
+					<option value="" disabled>Введите город</option>
 				</select>
-				<div v-if="selectedCity">
-					<h3>{{ selectedCity }}</h3>
-					<p>Lorem ipsum dolor sit amet...</p>
+				<div v-if="selectedCity" class="selected-city">
+					<h3 class="city__name">{{ selectedCity }}</h3>
+					<p class="city__text">
+						Lorem ipsum dolor sit amet consectetur. Elementum donec a accumsan egestas et non diam nunc. Semper aenean pharetra sit morbi. Est sed enim ut commodo adipiscing curabitur elementum tristique vel. Felis cras nisi et blandit. Vitae aliquam interdum aliquam ac senectus sit non erat. Euismod eu non id fermentum urna nunc scelerisque cursus vel. Phasellus ullamcorper congue ac tortor quam in mauris. Aliquam suspendisse erat dictumst libero. Commodo facilisis accumsan mattis pellentesque turpis nibh. Amet aliquam volutpat dictum risus nulla rhoncus arcu turpis tellus. Cursus feugiat quam arcu leo purus suspendisse cursus risus quis. Massa lobortis dolor a cras diam. Mi purus volutpat pulvinar accumsan dolor ultricies. Ipsum cursus proin mauris in. Bibendum amet ultrices faucibus tellus mauris magna. Eget leo sed aliquam eget tempus eget viverra tincidunt sit. Tortor non elit felis cras cras mi eget. Ut aliquet nibh eu at. Laoreet tincidunt porttitor tellus tristique.
+					</p>
+				</div>
+				<div v-else>
+					<p class="city__no-name">Город не выбран</p>
 				</div>
 			</div>
 		</div>
@@ -40,18 +55,25 @@ export default {
 			'Новосибирск', 'Казань', 'Владивосток', 'Нижний Новгород',
 			'Псков', 'Омск'
 		];
-		const selectedCity = ref(null);
+
+		const saveCity = () => {
+			localStorage.setItem('selectedCity', selectedCity.value);
+		};
+
+		const selectedCity = ref(localStorage.getItem('selectedCity') || '');
 
 		const logout = () => {
-			userStore.logout(); // Завершаем сессию
-			router.push('/'); // Переход на страницу входа
+			userStore.logout();
+			localStorage.removeItem('selectedCity');
+			router.push('/'); 
 		};
 
 		return {
-			username: userStore.username, // Получаем имя пользователя из хранилища
+			username: userStore.username,
 			images,
 			cities,
 			selectedCity,
+			saveCity,
 			logout,
 		};
 	},
@@ -65,10 +87,15 @@ export default {
 	padding: 24px;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 
-	.dashboard__header {
+	.header {
 		display: flex;
 		justify-content: space-between;
+
+		.username {
+			font-weight: 700;
+		}
 
 		.logout-button {
 			color: #000;
@@ -76,21 +103,51 @@ export default {
 	}
 
 	.dashboard__content {
+		height: 100%;
 
 		.dropdown {
-			margin-top: 20px;
+			margin-top: 80px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			gap: 112px;
+			
 
 			.dropdown__list {
 				padding: 8px 16px;
+				width: 230px;
 				border: 1px solid #000;
 				border-radius: 8px;
 				position: relative;
 				background: url('./../img/arrow-down.svg') no-repeat;
+				background-position: right 10px center;
+			}
 
-				.dropdown__item {
+			.selected-city {
+				max-width: 660px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 32px;
+				
+				.city__name {
+					font-size: 24px;
+					font-weight: 700;
 				}
+
+				.city__text {
+					text-align: left;
+					font-size: 16px;
+				}		
+			}
+
+			.city__no-name {
+				margin-top: 136px;
 			}
 		}
 	}
 }
+
 </style>
