@@ -57,12 +57,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/styles/_variables.scss";
+@import "@/assets/styles/_mixins.scss";
 
 .login-page {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	@include flex-column-center-center;
 	gap: 31px;
 
 	.login-page__title {
@@ -71,36 +70,32 @@ export default {
 	}
 
 	.user-form {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+		@include flex-column-center-center;
 		gap: 31px;
 
 		.user-form__data {
-			display: flex;
-			flex-direction: column;
+			@include flex-column;
 			gap: 12px;
 
 			.user-form__input {
-				padding: 8px 16px;
+				padding: $padding-8-6;
 				width: 230px;
 				height: 31px;
-				border-radius: 8px;
-				border: 1px solid #D7D7D7;
+				border-radius: $border-radius;
+				border: 1px solid $light-gray;
 
 				&::placeholder {
-					color: #D7D7D7;
+					color: $light-gray;
 				}
 			}
 		}
 
 		.user-form__button {
 			width: 68px;
-			padding: 8px 16px;
-			background-color: #000;
-			color: #fff;
-			border-radius: 8px;
+			padding: $padding-8-6;
+			background-color: $black;
+			color: $white;
+			border-radius: $border-radius;
 		}
 	}
 }

@@ -10,18 +10,13 @@
 			</button>
 		</header>
 		<div class="dashboard__content">
-			<vue-carousel v-if="images.length">
-				<carousel-slide v-for="(image, index) in images" :key="index">
-					<img :src="image" alt="Slider Image" />
-				</carousel-slide>
-			</vue-carousel>
 			<div class="dropdown">
 				<select 
 					v-model="selectedCity" 
 					class="dropdown__list" 
 					@change="saveCity"
 				>
-					<option v-for="city in cities" :key="city">{{ city }}</option>
+					<option v-for="city in cities" :key="city" class="dropdown__item" >{{ city }}</option>
 					<option value="" disabled>Введите город</option>
 				</select>
 				<div v-if="selectedCity" class="selected-city">
@@ -42,14 +37,11 @@
 import { useUserStore } from '../stores/user';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import VueCarousel from 'vue-carousel';
 
 export default {
-	components: { VueCarousel },
 	setup() {
 		const userStore = useUserStore();
 		const router = useRouter();
-		const images = ref(['image1.jpg', 'image2.jpg', 'image3.jpg']);
 		const cities = [
 			'Санкт-Петербург', 'Москва', 'Екатеринбург', 'Тюмень',
 			'Новосибирск', 'Казань', 'Владивосток', 'Нижний Новгород',
@@ -70,7 +62,6 @@ export default {
 
 		return {
 			username: userStore.username,
-			images,
 			cities,
 			selectedCity,
 			saveCity,
@@ -82,6 +73,8 @@ export default {
 
 
 <style scoped lang="scss">
+@import "@/assets/styles/_variables.scss";
+@import "@/assets/styles/_mixins.scss";
 
 .dashboard {
 	padding: 24px;
@@ -90,15 +83,14 @@ export default {
 	overflow: hidden;
 
 	.header {
-		display: flex;
-		justify-content: space-between;
+		@include flex-space-between;
 
 		.username {
 			font-weight: 700;
 		}
 
 		.logout-button {
-			color: #000;
+			color: $black;
 		}
 	}
 
@@ -107,29 +99,23 @@ export default {
 
 		.dropdown {
 			margin-top: 80px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: space-between;
+			@include flex-column-center-space-between;
 			gap: 112px;
-			
 
 			.dropdown__list {
-				padding: 8px 16px;
+				padding: $padding-8-6;
 				width: 230px;
-				border: 1px solid #000;
-				border-radius: 8px;
-				position: relative;
+				font-family: 'Inter', sans-serif;
+				font-size: 12px;
+				border: 1px solid $black;
+				border-radius: $border-radius;
 				background: url('./../img/arrow-down.svg') no-repeat;
 				background-position: right 10px center;
 			}
 
 			.selected-city {
+				@include flex-column-center-center;
 				max-width: 660px;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
 				gap: 32px;
 				
 				.city__name {
@@ -140,7 +126,7 @@ export default {
 				.city__text {
 					text-align: left;
 					font-size: 16px;
-				}		
+				}
 			}
 
 			.city__no-name {
