@@ -1,6 +1,6 @@
 const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
-	publicPath: '/simple-login-vue/',
+	publicPath: process.env.NODE_ENV === 'production' ? '/simple-login-vue/' : '/',
 	transpileDependencies: true,
 	configureWebpack: {
 		plugins: [
