@@ -51,21 +51,43 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	gap: 31px;
 
 	.login-page__title {
+		font-size: 16px;
+		font-weight: 500;
 	}
 
 	.user-form {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 31px;
 
 		.user-form__data {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
 
 			.user-form__input {
+				padding: 8px 16px;
+				width: 230px;
+				height: 31px;
+				border-radius: 8px;
+				border: 1px solid #D7D7D7;
+
+				&::placeholder {
+					color: #D7D7D7;
+				}
 			}
 		}
 
 		.user-form__button {
+			width: 68px;
+			padding: 8px 16px;
+			background-color: #000;
+			color: #fff;
 		}
 	}
 }
