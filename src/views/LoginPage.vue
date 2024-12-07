@@ -27,17 +27,29 @@
 
 <script>
 import { useUserStore } from '../stores/user';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 export default {
 	setup() {
 		const userStore = useUserStore();
+		const router = useRouter();
+
+		const username = ref('');
+		const password = ref('');
+
 		const login = () => {
-			userStore.setUser({ username: userStore.username });
-			userStore.$router.push('/dashboard');
+			if (username.value && password.value) {
+				userStore.setUser({ username: username.value });
+				router.push('/dashboard');
+			} else {
+				alert('Введите логин и пароль')
+			}
 		};
+
 		return {
-			username: userStore.username,
-			password: '',
+			username,
+			password,
 			login,
 		};
 	},
@@ -88,6 +100,7 @@ export default {
 			padding: 8px 16px;
 			background-color: #000;
 			color: #fff;
+			border-radius: 8px;
 		}
 	}
 }
