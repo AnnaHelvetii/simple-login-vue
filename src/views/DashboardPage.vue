@@ -79,8 +79,7 @@ export default {
 .dashboard {
 	padding: 24px;
 	width: 100%;
-	height: 100%;
-	overflow: hidden;
+	min-height: 100vh;
 
 	.header {
 		@include flex-space-between;
@@ -111,6 +110,7 @@ export default {
 				border-radius: $border-radius;
 				background: url('./../img/arrow-down.svg') no-repeat;
 				background-position: right 10px center;
+				cursor: pointer;
 			}
 
 			.selected-city {
